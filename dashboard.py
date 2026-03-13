@@ -15,21 +15,21 @@ if fisier is None:
 
 df = pd.read_csv(fisier)
 
-# ── FILTRE (Mutate aici pentru ca metricele și tabelul să le poată folosi) ──
+# ── FILTRE ──
 st.sidebar.header("Filtre")
 
 ocupatii = df["occupation"].unique().tolist()
-ocupatii_selectate = st.sidebar.multiselect("Filtru", ocupatii, default=ocupatii)
+ocupatii_selectate = st.sidebar.multiselect("Ocupații", ocupatii, default=ocupatii)
 
 genuri = df['gender'].unique().tolist()
-gen_selectat = st.sidebar.multiselect("Filtru", genuri, default=genuri)
+gen_selectat = st.sidebar.multiselect("Genuri", genuri, default=genuri)
 
 df_filtrat = df[
     (df["occupation"].isin(ocupatii_selectate)) &
     (df["gender"].isin(gen_selectat))
 ]
 
-# ── Statistici generale (Acum folosesc df_filtrat) ───────────────────
+# ── Statistici generale  ───────────────────
 col1, col2, col3 , col4, col5= st.columns(5)
 col1.metric("Ocupații", df_filtrat['occupation'].nunique())
 col2.metric("Timp mediu petr. în fața ecranului", int(df_filtrat['daily_screen_time_hours'].mean()))
@@ -37,10 +37,10 @@ col3.metric("Cel mai mic scor al cal. somnului", df_filtrat['sleep_quality_score
 col4.metric("Cel mai mare nivel de stres", df_filtrat['stress_level'].max())
 col5.metric("Oboseala mentală medie", int(df_filtrat['mental_fatigue_score'].mean()))
 
-# Tabelul (Acum folosește df_filtrat)
+# Tabelul
 st.dataframe(df_filtrat.head(10), use_container_width=True)
 
-# ── Grafic 1 — Plotly ─────────────────────────────────────────────
+# ── Grafic 1 — Plotly ────────────
 st.subheader("Grafic 1")
 
 fig = px.bar(
@@ -74,7 +74,7 @@ fig = px.bar(
 )
 st.plotly_chart(fig, use_container_width=True)
 
-# ── Grafic 2 — Matplotlib ─────────────────────────────────────────
+# ── Grafic 2 — Matplotlib ──────────────────────
 st.subheader("Grafic 4")
 
 fig2, ax = plt.subplots(figsize=(9, 4))
@@ -90,6 +90,8 @@ st.subheader("Grafic 4")
 fig2, ax = plt.subplots(figsize=(9, 4))
 ax.hist(df_filtrat["mental_fatigue_score"].dropna(), bins=20, color="#ff5c00", edgecolor="white")
 ax.set_title("Distribuția scorului de oboseală mentală")
+ax.set_xlabel("Scorul de oboseală mentală")
 ax.set_ylabel("Frecvență")
 st.pyplot(fig2)
+
 plt.close(fig2)
