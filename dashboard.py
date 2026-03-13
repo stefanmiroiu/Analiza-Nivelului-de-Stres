@@ -85,7 +85,7 @@ ax.set_ylabel("Frecvență")
 st.pyplot(fig2)
 plt.close(fig2)
 
-st.subheader("Grafic 4")
+st.subheader("Grafic 5")
 
 fig2, ax = plt.subplots(figsize=(9, 4))
 ax.hist(df_filtrat["mental_fatigue_score"].dropna(), bins=20, color="#ff5c00", edgecolor="white")
@@ -95,3 +95,4 @@ ax.set_ylabel("Frecvență")
 st.pyplot(fig2)
 
 plt.close(fig2)
+
